@@ -1,0 +1,18 @@
+.item_pizza, .item_fruit {
+display: block;
+margin: 5px 10px;
+}
+p {
+font-weight: bold;
+}
+input[type="submit"]{
+}
+fieldset {
+max-width: 500px;
+margin-top: 10px;
+}
+legend {
+font-weight: bold;
+font-size: 20px;
+color: #317ac1;
+}
