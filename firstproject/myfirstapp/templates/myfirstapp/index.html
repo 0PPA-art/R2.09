@@ -5,6 +5,17 @@
     <title>Title : ma première page</title>
 </head>
 <body>
+    <form action="/myfirstapp/bonjour" method="get">
+    {% csrf_token %}
+        <label for="nom"> Nom :</label>
+        <input type="text" name="nom"/>
+        <input type="submit" value="envoyer"/>
+    </form>
 
+{% if nom is not None %}
+    <h1> Hello {{nom}} </h1>
+{% else %}
+    <h1> Hello world </h1>
+{% endif %}
 </body>
 </html>

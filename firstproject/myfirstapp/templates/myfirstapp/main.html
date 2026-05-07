@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  {% load static %}
+  <link rel="stylesheet" href="{%static 'myfirstapp/index.css' %}">
+  <title>{% block title %}Mon Site {% endblock %} </title>
+</head>
+<body>
+  <aside id="sidebar">
+    {% block sidebar %}
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/myfirstapp/index">Index</a></li>
+  </ul>
+  {% endblock %}
+  </aside>
+  <div id="content">
+    {% block content %}
+      <h1> bloc principal </h1>
+    {% endblock %}
+  </div>
+
+  <!-- héritage du contenu du gabarit squelette main.hml-->
+ <!-- si le gabarit n'est pas dans templates mais dans le
+répertoire templates/myfirstapp/, il faudra ajouter le chemin d'accès avant le nom
+du fichier donc extends "myfirstapp/main.html"-->
+
+ <!-- définition de ce que contiendra la balise title du head-->
+
+  <title>formulaire</title>
+
+<!-- les champs de formulaires-->
+
+  <form action="/myfirstapp/bonjour" method="get" />
+    <label for="nom"> Nom :</label>
+    <input type="text" name="nom"/>
+    <input type="submit" value="envoyer"/>
+  </form>
+
+
+  <title>Mon formulaire</title>
+<p>
+<!-- les champs de formulaires--></p>
+{{block.super}} <!-- récupére les données par défaut du bloc content du squelette-->
+  <form action="/myfirstapp/bonjour" method="get" />
+  <input type="submit" value="envoyer"
+  </form>
+</body>
+</html>
