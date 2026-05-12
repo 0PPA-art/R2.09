@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des livres</title>
+</head>
+<body>
+    <h1>Liste des livres de la bibliothèque</h1>
+
+    <p><a href="{% url 'bibliothequeapp:ajout' %}">+ Ajouter un nouveau livre</a></p>
+
+    <ul>
+    {% for livre in livres %}
+        <li>
+            {{ livre }} <!-- utilise __str__() -->
+            &nbsp;&nbsp;
+            <a href="{% url 'bibliothequeapp:read' livre.id %}">Voir détails</a> |
+            <a href="{% url 'bibliothequeapp:update' livre.id %}">Modifier</a> |
+            <a href="{% url 'bibliothequeapp:delete' livre.id %}"
+               onclick="return confirm('Supprimer ce livre ?')">Supprimer</a>
+        </li>
+    {% empty %}
+        <li>Aucun livre enregistré pour le moment.</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
