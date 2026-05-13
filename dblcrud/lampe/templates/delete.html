@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <a href="{% url 'bibliothequeapp:delete' livre.id %}"
+   onclick="return confirm('Voulez-vous vraiment supprimer ce livre ?')">
+   Supprimer
+</a>
+ <a href="{% url 'bibliothequeapp:liste' %}">Retour à la liste</a>
+</body>
+</html>

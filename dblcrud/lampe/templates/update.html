@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier le livre</title>
+</head>
+<body>
+    <h1>Modification du livre n°{{ id }}</h1>
+
+    <form method="post" action="{% url 'bibliothequeapp:traitementupdate' id %}">
+        {% csrf_token %}
+        {{ form.as_p }}     <!-- ou {{ form.as_ul }} ou {{ form.as_table }} -->
+        <input type="submit" value="Enregistrer les modifications">
+    </form>
+
+    <br>
+    <a href="{% url 'bibliothequeapp:liste' %}">Retour à la liste</a>
+</body>
+</html>
