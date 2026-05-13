@@ -7,13 +7,13 @@
 <body>
     <h1>Modification du livre n°{{ id }}</h1>
 
-    <form method="post" action="{% url 'traitementupdate' id %}">
+    <form method="post" action="{% url 'bibliothequeapp:traitementupdate' id %}">
         {% csrf_token %}
         {{ form.as_p }}     <!-- ou {{ form.as_ul }} ou {{ form.as_table }} -->
         <input type="submit" value="Enregistrer les modifications">
     </form>
 
     <br>
-    <a href="/bibliothequeapp/">Retour à la liste</a>
+    <a href="{% url 'bibliothequeapp:liste' %}">Retour à la liste</a>
 </body>
 </html>

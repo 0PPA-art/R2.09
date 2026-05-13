@@ -7,8 +7,7 @@
 <body>
     <form method="post" action="/bibliothequeapp/traitement/">
         {% csrf_token %}
-        {{ form.as_ul }} <!-- permet d'afficher tous les champs sous forme d'une liste
-        -->
+        {{ form.as_ul }} <!-- permet d'afficher tous les champs sous forme d'une liste-->
         <input type="submit" value="envoyer les données">
     </form>
 </body>

@@ -7,7 +7,7 @@
 <body>
     <h1>Liste des livres de la bibliothèque</h1>
 
-    <p><a href="{% url 'bibliothequeapp:ajout' %}">+ Ajouter un nouveau livre</a></p>
+    <p><a href="{'bibliothequeapp/ajout'}">+ Ajouter un nouveau livre</a></p>
 
     <ul>
     {% for livre in livres %}

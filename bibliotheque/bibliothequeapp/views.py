@@ -1,9 +1,10 @@
 from cProfile import label
-
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from . forms import LivreForm
 from . import models
+
+
 def ajout(request):
     if request.method == "POST": # arrive en cas de retour sur cette page après unesaisie invalide on récupère donc les données. Normalement nous ne devrions pas passer par ce chemin la pour le traitement des données
         form = LivreForm(request)
@@ -19,8 +20,8 @@ def ajout(request):
 def traitement(request):
     lform = LivreForm(request.POST)
     if lform.is_valid():
-        Livre = lform.save()
-        return render(request,"bibliothequeapp/affiche.html",{"bibliothequeapp" : Livre})
+        livre = lform.save()
+        return render(request,"bibliothequeapp/affiche.html",{"bibliothequeapp" : livre})
     else:
         return render(request,"bibliothequeapp/ajout.html",{"form": lform})
 
@@ -50,3 +51,11 @@ def update(request, id):
     Livre = models.Livre.objects.get(pk=id)
     form = LivreForm(Livre.__dict__)  # création d'un formulaire vide
     return render(request, "bibliothequeapp/update.html", {"form": form, "id":id})
+
+def delete(request, id):
+    livre = models.Livre.objects.get(pk=id)
+
+    livre.delete()
+    return HttpResponseRedirect('/bibliothequeapp/liste/')
+
+
