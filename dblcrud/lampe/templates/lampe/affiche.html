@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tout afficher</title>
+</head>
+<body>
+    <h1>Liste des catégories</h1>
+    <ul>
+        {% for cat in categories %}
+            <li><strong>{{ cat.nom }}</strong> - {{ cat.description }}</li>
+        {% empty %}
+            <li>Aucune catégorie.</li>
+        {% endfor %}
+        <p><a href="{% url 'lampe:ajout_categorie' %}">+ Ajouter un nouveau produit</a></p>
+    </ul>
+
+    <h1>Liste des produits</h1>
+    <ul>
+        {% for prod in produits %}
+            <li><strong>{{ prod.nom }}</strong> - {{ prod.prix }}€</li>
+        {% empty %}
+            <li>Aucun produit.</li>
+        {% endfor %}
+        <a href="{% url 'lampe:ajout_produit' %}">+ Ajouter un nouveau produit</a>
+    </ul>
+</body>
+</html>

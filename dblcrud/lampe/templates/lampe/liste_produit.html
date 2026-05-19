@@ -1,31 +1,19 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Liste des lampes</title>
-    <!--<link rel="stylesheet" type="text/css" href="{%static 'static/static.css' %}">-->
+  <meta charset="UTF-8">
+  <title>Title</title>
 </head>
 <body>
-    <h1>Liste des lampes de la boutique</h1>
+<h1>Liste des lampes de la boutique</h1>
 
-    <p><a href="{'lampe/ajout'}">+ Ajouter un nouveau livre</a></p>
+    <p><a href="{'lampe/ajout/produit'}">+ Ajouter un nouveau produit</a></p>
 
-    {% for lampe in lampes %}
-        <table>
-        <thead>
-            <tr>
-                <th>{{ Catégorie }}</th>
-                {% if type_objet == 'produit' %}
-                    <th>Catégorie</th>
-                    <th>Prix</th>
-                    <th>Stock</th>
-                {% endif %}
-                <th>Actions</th>
-            </tr>
-        </thead>
+  <table>
         <tbody>
         {% for objet in objets %}
             <tr>
+                <th>{{ Produit }}</th>
                 <td>{{ objet.nom|default:objet }}</td>
                 {% if type_objet == 'produit' %}
                     <td>{{ objet.categorie }}</td>
@@ -42,6 +30,5 @@
     {% endfor %}
         </tbody>
     </table>
-
 </body>
 </html>

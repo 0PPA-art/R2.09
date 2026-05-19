@@ -12,10 +12,10 @@ def ajout(request):
             Livre = form.save() # sauvegarde dans la base
             return render(request,"bibliothequeapp/affiche.html",{"bibliothequeapp" : Livre}) #envoie vers une page d'affichage du bibliothequeapp créé
         else:
-            return render(request,"bibliothequeapp/ajout.html",{"form": form})
+            return render(request,"bibliothequeapp/ajout_categorie.html",{"form": form})
     else :
         form = LivreForm() # création d'un formulaire vide
-        return render(request,"bibliothequeapp/ajout.html",{"form" : form})
+        return render(request,"bibliothequeapp/ajout_categorie.html",{"form" : form})
 
 def traitement(request):
     lform = LivreForm(request.POST)
@@ -23,7 +23,7 @@ def traitement(request):
         livre = lform.save()
         return render(request,"bibliothequeapp/affiche.html",{"bibliothequeapp" : livre})
     else:
-        return render(request,"bibliothequeapp/ajout.html",{"form": lform})
+        return render(request,"bibliothequeapp/ajout_categorie.html",{"form": lform})
 
 def read(request, id):
     Livre = models.Livre.objects.get(pk=id) # méthode pour récupérer les données dans la base avec un id donnée
@@ -43,7 +43,7 @@ def traitementupdate(request, id):
         return render(request, "bibliothequeapp/update.html", {"form": lform, "id": id})
 def liste(request):
     livres = models.Livre.objects.all()          # Pas besoin de list()
-    return render(request, "bibliothequeapp/liste.html", {
+    return render(request, "bibliothequeapp/liste_categorie.html", {
         "livres": livres
     })
 

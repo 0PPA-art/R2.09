@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>liste des catégorie</title>
+</head>
+<body>
+    <h1>liste des catégorie</h1>
+     <p><a href="{% url 'lampe:ajout_categorie' %}">+ Ajouter un nouveau produit</a></p>
+
+    <br><br>
+
+    <ul>
+       {% for categorie in objets %}
+    <li>
+        <strong>{{ categorie.nom }}</strong>
+        {% if categorie.description %} - {{ categorie.description }}{% endif %}
+    </li>
+{% empty %}
+    <li>Aucune catégorie enregistrée pour le moment.</li>
+{% endfor %}
+    </ul>
+</body>
+</html>

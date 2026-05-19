@@ -2,29 +2,26 @@ from django.shortcuts import render
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
 from . forms import CategorieForm
 from . forms import ProduitForm
 from . import models
 
 
-def ajout(request):
-    if request.method == "POST":
-        if type_objet == 'produit':
-            formP = ProduitForm(request.POST, request.FILES)
-            if formP.is_valid():
-                formP.save()
-                return HttpResponseRedirect('list')
-            else:
-                formC = CategorieForm()
-        elif type_objet == 'categorie':
-            formC = CategorieForm(request.POST)
+def ajout(request, type_objet):
+    if type_objet == 'produit':
+        formp = ProduitForm(request.POST or None)
+        if request.method == "POST" and formp.is_valid():
+            formp.save()  # ← manquant !
+            return HttpResponseRedirect(reverse('lampe:affiche'))
+        return render(request, "lampe/ajout_categorie.html", {"form": formp})
 
-            if formC.is_valid():
-                formC.save()
-                return HttpResponseRedirect('list')
-            else:
-                formC = CategorieForm()
-        return render(request, "lampe/ajout.html", {"form": formC})
+    elif type_objet == 'categorie':
+        formc = CategorieForm(request.POST or None)
+        if request.method == "POST" and formc.is_valid():
+            formc.save()
+            return HttpResponseRedirect(reverse('lampe:affiche'))
+        return render(request, "lampe/ajout_categorie.html", {"form": formc})
 
 
 def traitement(request):
@@ -33,12 +30,15 @@ def traitement(request):
         livre = lform.save()
         return render(request,"lampe/affiche.html",{"bibliothequeapp" : livre})
     else:
-        return render(request,"lampe/ajout.html",{"form": lform})
+        return render(request,"lampe/ajout_categorie.html",{"form": lform})
 
-def read(request, id):
-    Livre = models.Produit.objects.get(pk=id) # méthode pour récupérer les données dans la base avec un id donnée
-    return render(request,"lampe/affiche.html",{"bibliothequeapp": Livre})
-
+def affiche(request):
+    categories = models.Categorie.objects.all()
+    produits = models.Produit.objects.all()
+    return render(request, "lampe/affiche.html", {
+        "categories": categories,
+        "produits": produits
+    })
 def traitementupdate(request, id):
     Livre = models.Produit.objects.get(pk=id)  # méthode pour récupérer les donnéesdans la base avec un id donnée
     lform = ProduitForm(request.POST)
@@ -51,10 +51,20 @@ def traitementupdate(request, id):
 #qui renvoie vers la page d'index de notre site (celle avec la liste des entrées)
     else:
         return render(request, "lampe/update.html", {"form": lform, "id": id})
-def liste(request):
-    livres = models.Produit.objects.all()          # Pas besoin de list()
-    return render(request, "lampe/liste.html", {
-        "livres": livres
+def liste(request, type_objet):
+    if type_objet == 'categorie':
+        objets = models.Categorie.objects.all()
+        template = "lampe/liste_categorie.html"
+        titre = "Liste des catégories"
+
+    elif type_objet == 'produit':
+        objets = models.Produit.objects.all()
+        template = "lampe/liste_produit.html"
+        titre = "Liste des produits"
+
+    return render(request, template, {
+        "objets": objets,
+        "titre": titre
     })
 
 def update(request, id):
@@ -64,57 +74,7 @@ def update(request, id):
 
 def delete(request, id):
     livre = models.Produit.objects.get(pk=id)
-
     livre.delete()
     return HttpResponseRedirect('/lampe/liste/')
 
-# ======= CRUD Catégorie ====================
-def CategorieListView(ListView):
-    model = Categorie
-    template_name = 'lampe/liste.html'
-    context_object_name = 'categories'
 
-def CategorieCreateView(CreateView):
-    model = Categorie
-    form_class = CategorieForm
-    template_name = ‘lampe/ajout.html'
-    success_url = reverse_lazy('liste')
-
-
-def CategorieUpdateView(UpdateView):
-    model = Categorie
-    form_class = CategorieForm
-    template_name = 'lampe/update.html'
-    success_url = reverse_lazy('liste ')
-
-def CategorieDeleteView(DeleteView):
-    model = Categorie
-    template_name = ‘lampe/delete.html’
-    success_url = reverse_lazy('liste')
-
-
-# =============== CRUD Produit ==========
-def ProduitListView(ListView):
-    model = Produit
-    template_name = ' lampe / liste.html'
-    context_object_name = 'produits'
-
-
-def ProduitCreateView(CreateView):
-    model = Produit
-    form_class = ProduitForm
-    template_name = 'lampe/ajout.html'
-    success_url = reverse_lazy('liste')
-
-
-def ProduitUpdateView(UpdateView):
-    model = Produit
-    form_class = ProduitForm
-    template_name = 'boutique/update.html'
-    success_url = reverse_lazy('liste')
-
-
-def ProduitDeleteView(DeleteView):
-    model = Produit
-    template_name = 'lampe / delete.html'
-    success_url = reverse_lazy('liste ')
