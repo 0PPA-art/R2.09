@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="post" action="/bibliothequeapp/traitement/">
+    <form method="post" action="/dblcrud/lampe/">
         {% csrf_token %}
         {{ form.as_ul }} <!-- permet d'afficher tous les champs sous forme d'une liste-->
         <input type="submit" value="envoyer les données">

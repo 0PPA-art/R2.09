@@ -8,16 +8,24 @@ from . import models
 
 
 def ajout(request):
-    if request.method == "POST": # arrive en cas de retour sur cette page après unesaisie invalide on récupère donc les données. Normalement nous ne devrions pas passer par ce chemin la pour le traitement des données
-        form = ProduitForm(request)
-        if form.is_valid(): # validation du formulaire.
-            Livre = form.save() # sauvegarde dans la base
-            return render(request,"lampe/affiche.html",{"bibliothequeapp" : Livre}) #envoie vers une page d'affichage du bibliothequeapp créé
-        else:
-            return render(request,"lampe/ajout.html",{"form": form})
-    else :
-        form = ProduitForm() # création d'un formulaire vide
-        return render(request,"lampe/ajout.html",{"form" : form})
+    if request.method == "POST":
+        if type_objet == 'produit':
+            formP = ProduitForm(request.POST, request.FILES)
+            if formP.is_valid():
+                formP.save()
+                return HttpResponseRedirect('list')
+            else:
+                formC = CategorieForm()
+        elif type_objet == 'categorie':
+            formC = CategorieForm(request.POST)
+
+            if formC.is_valid():
+                formC.save()
+                return HttpResponseRedirect('list')
+            else:
+                formC = CategorieForm()
+        return render(request, "lampe/ajout.html", {"form": formC})
+
 
 def traitement(request):
     lform = ProduitForm(request.POST)
@@ -60,3 +68,53 @@ def delete(request, id):
     livre.delete()
     return HttpResponseRedirect('/lampe/liste/')
 
+# ======= CRUD Catégorie ====================
+def CategorieListView(ListView):
+    model = Categorie
+    template_name = 'lampe/liste.html'
+    context_object_name = 'categories'
+
+def CategorieCreateView(CreateView):
+    model = Categorie
+    form_class = CategorieForm
+    template_name = ‘lampe/ajout.html'
+    success_url = reverse_lazy('liste')
+
+
+def CategorieUpdateView(UpdateView):
+    model = Categorie
+    form_class = CategorieForm
+    template_name = 'lampe/update.html'
+    success_url = reverse_lazy('liste ')
+
+def CategorieDeleteView(DeleteView):
+    model = Categorie
+    template_name = ‘lampe/delete.html’
+    success_url = reverse_lazy('liste')
+
+
+# =============== CRUD Produit ==========
+def ProduitListView(ListView):
+    model = Produit
+    template_name = ' lampe / liste.html'
+    context_object_name = 'produits'
+
+
+def ProduitCreateView(CreateView):
+    model = Produit
+    form_class = ProduitForm
+    template_name = 'lampe/ajout.html'
+    success_url = reverse_lazy('liste')
+
+
+def ProduitUpdateView(UpdateView):
+    model = Produit
+    form_class = ProduitForm
+    template_name = 'boutique/update.html'
+    success_url = reverse_lazy('liste')
+
+
+def ProduitDeleteView(DeleteView):
+    model = Produit
+    template_name = 'lampe / delete.html'
+    success_url = reverse_lazy('liste ')
